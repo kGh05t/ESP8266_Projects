@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="refresh" content="1"; charset=UTF-8">
+  <title>UltraSonic Water Monitor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <style>
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+  }
+  h1 {
+    font-size: 1.1rem;
+    color: white;
+  }
+ 
+  
+  body {
+    margin: 0;
+  }
+  .content {
+    padding: 30px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .card {
+    background-color: #fd20cf;
+	border-radius:80px;
+    box-shadow: 2px 90px 200px 220px rgba(285,0,111,.5);
+    padding-top:10%;
+	width:480px;
+    padding-bottom:10%;
+  }
+  .button {
+  position:center;
+  
+    padding: 60px 50px;
+    font-size: 48px;
+    text-align: right;
+    outline: none;
+    color: #fff;
+    background-color: #0023ff;
+    border: none;
+    border-radius: 60px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+   }
+   /*.button:hover {background-color: #0f8b8d}*/
+   .button:active {
+     background-color: #118b8d;
+     box-shadow: 2 2px #CDCDCD;
+     transform: translateY(3px);
+   }
+   .state {
+     font-size: 1.7rem;
+     color:#8c118c;
+     font-weight: bold;
+   }
+   
+   .button {
+    position: relative;
+	right:-36%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    padding: 0 16px;
+    min-width: 64px;
+    height: 36px;
+    vertical-align: middle;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 36px;
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.button::-moz-focus-inner {
+    border: none;
+}
+
+/* Overlay */
+
+
+/* Ripple */
+.button::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    padding: 50%;
+    width: 32px; /* Safari */
+    height: 32px; /* Safari */
+    background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 1s, transform 0.1s;
+}
+
+/* Hover, Focus */
+.button:hover,
+.button:focus {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.button:hover::before {
+    opacity: 0.08;
+}
+
+.button:focus::before {
+    opacity: 0.24;
+}
+
+.button:hover:focus::before {
+    opacity: 0.3;
+}
+
+/* Active */
+.button:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.button:active::after {
+    opacity: 0.32;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0s;
+}
+
+/* Disabled */
+.button:disabled {
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.12);
+    box-shadow: none;
+    cursor: initial;
+}
+
+.button:disabled::before {
+    opacity: 0;
+}
+
+.button:disabled::after {
+    opacity: 0;
+}
+   
+   .pure-material-button-contained {
+    position: relative;
+  right:-20%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    padding: 0 16px;
+    min-width: 64px;
+    height: 36px;
+    vertical-align: middle;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    background-color: rgb(var(--pure-material-primary-rgb, 230, 12, 12));
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 36px;
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.pure-material-button-contained::-moz-focus-inner {
+    border: none;
+}
+
+/* Overlay */
+.pure-material-button-contained::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Ripple */
+.pure-material-button-contained::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    padding: 50%;
+    width: 32px; /* Safari */
+    height: 32px; /* Safari */
+    background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 1s, transform 0.5s;
+}
+
+/* Hover, Focus */
+.pure-material-button-contained:hover,
+.pure-material-button-contained:focus {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.pure-material-button-contained:hover::before {
+    opacity: 0.08;
+}
+
+.pure-material-button-contained:focus::before {
+    opacity: 0.24;
+}
+
+.pure-material-button-contained:hover:focus::before {
+    opacity: 0.3;
+}
+
+/* Active */
+.pure-material-button-contained:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.pure-material-button-contained:active::after {
+    opacity: 0.32;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0s;
+}
+
+/* Disabled */
+.pure-material-button-contained:disabled {
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.12);
+    box-shadow: none;
+    cursor: initial;
+}
+
+.pure-material-button-contained:disabled::before {
+    opacity: 0;
+}
+
+.pure-material-button-contained:disabled::after {
+    opacity: 0;
+}
+
+
+
+.motorbutton {
+    position: relative;
+  right:-30%;
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 60px;
+    padding: 0 16px;
+    min-width: 64px;
+    height: 36px;
+    vertical-align: middle;  
+    text-align: center;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    background-color: rgb(var(--pure-material-primary-rgb, 230, 12, 12));
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    font-family: var(--pure-material-font, "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system);
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 36px;
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.motorbutton::-moz-focus-inner {
+    border: none;
+}
+
+/* Overlay */
+.motorbutton::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Ripple */
+.motorbutton::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    padding: 50%;
+    width: 32px; /* Safari */
+    height: 32px; /* Safari */
+    background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+    transition: opacity 1s, transform 0.5s;
+}
+
+/* Hover, Focus */
+.motorbutton:hover,
+.motorbutton:focus {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.motorbutton:hover::before {
+    opacity: 0.08;
+}
+
+.motorbutton:focus::before {
+    opacity: 0.24;
+}
+
+.motorbutton:hover:focus::before {
+    opacity: 0.3;
+}
+
+/* Active */
+.motorbutton:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.motorbutton:active::after {
+    opacity: 0.32;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0s;
+}
+
+/* Disabled */
+.motorbutton:disabled {
+    color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.12);
+    box-shadow: none;
+    cursor: initial;
+}
+
+.motorbutton:disabled::before {
+    opacity: 0;
+}
+
+.motorbutton:disabled::after {
+    opacity: 0;
+}
+  </style>
+<title>UltraSonic Water Tank Monitor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+</head>
+
+  
+  <body><div class="content">
+    <div class="card" style="vertical-align: center;">
+	
+  <div style=" background-color:yellow; font-size:180%;position: center;vertical-align: middle;right: 0%;font-style: italic;color: red;" class="title">UltraSonic Water Tank Monitor</div>
+  
+  <div class="card-body">
+  <blockquote class="blockquote mb-0">
+    <h5 style="background-color:cyan;/*! font-size:180%; */font-size: x-large;align-content: center;"><span style="" ;<="" span=""> Percent Filled: </span><span style="font-size:x-large;color:#f00;" id="state">Press Monitor</span></h5><p></p>
+  <h4 style="background-color:cyan;font-size:x-large;vertical-align: middle;"> Motor is : <span style="font-size:x-large;color:#f21305;vertical-align: middle;" id="motor">%MOTORSTATUS%</span></h4><p></p>
+    <p><button id="button" class="button">Monitor</button></p>
+ <p><button id="motorbutton" class="motorbutton">Turn On Motor</button></p>
+ 
+  <p><button id="alarmbutton" class="pure-material-button-contained">Reset Alarm+Turn Off Motor</button></p>
+</blockquote></div>
+    </div>
+  </div>
+<script>
+  var gateway = `ws://${window.location.hostname}/ws`;
+  var websocket;
+  var array=[];
+  var j;
+  var count;
+  var length;
+  window.addEventListener('load', onLoad);
+  function initWebSocket() {
+    console.log('Trying to open a WebSocket connection...');
+    websocket = new WebSocket(gateway);
+    websocket.onopen    = onOpen;
+    websocket.onclose   = onClose;
+    websocket.onmessage = onMessage; // <-- add this line
+  }
+  function onOpen(event) {
+    console.log('Connection opened');
+  websocket.send('status');
+  }
+  function onClose(event) {
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+  }
+  function onMessage(event) {
+    var state;
+     var cm;
+     var parsed_data=parseInt(event.data);
+    if(typeof(parsed_data)=="number" && (event.data)!="0" && (event.data)!="alarm" && (event.data)!="monitor" && (event.data)!="motor" && (event.data)!="status"){      
+          
+          count=array.push(parsed_data); 
+                            //length of aray after pushing  
+      if(event.data=="9999"){
+                    array.sort(function(a, b) {
+                    return a - b;
+                  });
+                 console.log(array);
+                for(var i=1;i<array.length;i++){
+                    if(array[i]>array[0]+7){
+                    j=i;
+                    array=array.slice(0,j);
+                    console.log("sliced array:="+array);
+                    length=array.length;
+                    }
+                    }
+              averaged_cm=(array.reduce((a, b) => a + b, 0))/length;
+              finalcm=averaged_cm-20;
+         
+                state= (1-(finalcm/83))*100;    
+                document.getElementById('state').innerHTML = (Math.round(state * 100) / 100).toFixed(2);
+                console.log("percentage calculated"+finalcm);
+                array=[];
+              }
+
+              
+}
+   else if((event.data)=="0"){
+      document.getElementById('state').innerHTML = "Sensor is OFF.!(getting 0 cm)";
+  }
+   else if(event.data=="monitor"){
+   alert("Monitor Started! Please Wait for 10 Seconds!");
+  }
+   else if(event.data=="alarm"){
+  alert("Alarm and Motor are turned off!");
+  }
+  else if(event.data=="motor"){
+  alert("Motor Started!");
+  }
+  else if(event.data=="state"){
+    
+    if (document.getElementById('state').innerHTML =="OFF"){
+      document.getElementById('motor').innerHTML = "ON";
+    }
+    else if (document.getElementById('state').innerHTML == "ON"){
+      document.getElementById('motor').innerHTML = "OFF";
+    }
+         
+  }
+  }
+  
+
+
+  function onLoad(event) {
+    initWebSocket();
+    initButton();
+  }
+  function initButton() {
+    document.getElementById('button').addEventListener('click', toggle);
+  document.getElementById('alarmbutton').addEventListener('click', alarmtoggle);
+  document.getElementById('motorbutton').addEventListener('click', motortoggle);
+  }
+  function toggle(){
+    websocket.send('monitor');
+  }
+  function alarmtoggle(){
+    websocket.send('alarm');
+  }
+  function motortoggle(){
+    websocket.send('motor');
+  }
+
+</script>
+
+
+</body></html>
